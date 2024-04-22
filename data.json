@@ -1,0 +1,225 @@
+{
+  "user": {
+    "username": "example_user",
+    "age": 30,
+    "email": "user@example.com",
+    "gender": "male",
+    "dob": "1994-01-01",
+    "location": "New York, USA",
+    "weight": 75,
+    "height": 180,
+    "goals": ["Lose Weight", "Build Muscles"],
+    "daily_walk": ["Less than 30 minutes"],
+    "fitness_level": "beginner",
+    "challenges": ["Lack of Motivation"],
+    "target_zones": ["Arms", "Chest", "Legs"],
+    "stick": ["Setting Realistic Goal"],
+    "steps": [
+      { "date": "2024-04-14", "steps_count": 5000 },
+      { "date": "2024-04-13", "steps_count": 6000 }
+    ],
+    "minutes": [
+      { "date": "2024-04-14", "min_count": 30 },
+      { "date": "2024-04-13", "min_count": 45 }
+    ],
+    "cal_burned": [
+      { "date": "2024-04-14", "cal_count": 300 },
+      { "date": "2024-04-13", "cal_count": 400 }
+    ],
+    "sleep_time": [
+      { "date": "2024-04-14", "sleep_count": 8 },
+      { "date": "2024-04-13", "sleep_count": 7 }
+    ],
+    "stress_level": [
+      { "date": "2024-04-14", "stress_count": 3 },
+      { "date": "2024-04-13", "stress_count": 2 }
+    ],
+    "water_intake": [
+      { "date": "2024-04-14", "water_count": 8 },
+      { "date": "2024-04-13", "water_count": 7 }
+    ],
+    "period": [
+      { "date": "2024-04-14", "perioid_count": 1 },
+      { "date": "2024-04-13", "perioid_count": 0 }
+    ],
+    "weight_track": [
+      { "date": "2024-04-14", "weight_count": 74 },
+      { "date": "2024-04-13", "weight_count": 75 }
+    ],
+    "medication": [
+      { "date": "2024-04-14", "medication_count": 1 },
+      { "date": "2024-04-13", "medication_count": 0 }
+    ],
+    "reminder": [
+      { "date": "2024-04-14", "reminder_count": 2 },
+      { "date": "2024-04-13", "reminder_count": 1 }
+    ],
+    "fitness_streak": 5,
+    "points": 100,
+    "achievements": [
+      { "name": "First 5k run" },
+      { "name": "10 days streak" }
+    ],
+    "file_expo_image": "",
+    "progress": 50,
+    "meal": [
+      {
+        "meal_image_url": "https://example.com/meal1.jpg",
+        "meal_name": "Oatmeal with fruits",
+        "meal_notes": "No sugar added",
+        "date": "2024-04-21",
+        "meal_type": "Breakfast"
+      },
+      {
+        "meal_image_url": "https://example.com/meal2.jpg",
+        "meal_name": "Grilled chicken salad",
+        "meal_notes": "Extra dressing on the side",
+        "date": "2024-04-21",
+        "meal_type": "Lunch"
+      }
+    ]
+
+  },
+  "exercises": [
+    {
+      "name": "Bicep Blast",
+      "duration": 200,
+      "difficulty": "Beginner",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/bicep_blast.jpg",
+      "category": "Arms",
+      "sequence": [
+        {
+          "name": "Arm Raises",
+          "duration": 30,
+          "targets": ["Biceps", "Shoulders"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Push-Ups",
+          "duration": 30,
+          "targets": ["Chest", "Triceps"],
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    },
+    {
+      "name": "Tricep Toner",
+      "duration": 180,
+      "difficulty": "Intermediate",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/tricep_toner.jpg",
+      "category": "Arms",
+      "sequence": [
+        {
+          "name": "Tricep Dips",
+          "duration": 30,
+          "targets": ["Triceps"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Diamond Push-Ups",
+          "duration": 30,
+          "targets": ["Triceps", "Chest"],
+
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    },
+    {
+      "name": "Chest Strength",
+      "duration": 240,
+      "difficulty": "Intermediate",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/chest_strength.jpg",
+      "category": "Chest",
+      "sequence": [
+        {
+          "name": "Push-Ups",
+          "duration": 30,
+          "targets": ["Chest", "Shoulders", "Triceps"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Wide Push-Ups",
+          "duration": 30,
+          "targets": ["Chest", "Shoulders"],
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    },
+    {
+      "name": "Chest Power",
+      "duration": 240,
+      "difficulty": "Advanced",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/chest_power.jpg",
+      "category": "Chest",
+      "sequence": [
+        {
+          "name": "Clapping Push-Ups",
+          "duration": 30,
+          "targets": ["Chest", "Shoulders", "Triceps"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Plyometric Push-Ups",
+          "duration": 30,
+          "targets": ["Chest", "Shoulders", "Triceps"], 
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    },
+    {
+      "name": "Build Your Base",
+      "duration": 300,
+      "difficulty": "Intermediate",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/build_your_base.jpg",
+      "category": "Legs",
+      "sequence": [
+        {
+          "name": "Squats",
+          "duration": 30,
+          "targets": ["Legs", "Glutes"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Lunges",
+          "duration": 30,
+          "targets": ["Legs", "Glutes"],
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    },
+    {
+      "name": "Power Up Legs",
+      "duration": 240,
+      "difficulty": "Advanced",
+      "equipment": "No equipment needed",
+      "image_url": "https://example.com/power_up_legs.jpg",
+      "category": "Legs",
+      "sequence": [
+        {
+          "name": "Jump Squats",
+          "duration": 30,
+          "targets": ["Legs", "Glutes"],
+          "image_url": "https://placehold.co/400"
+        },
+        {
+          "name": "Lunges with High Knees",
+          "duration": 30,
+          "targets": ["Legs", "Glutes"],
+          "image_url": "https://placehold.co/400"
+        }
+      ]
+    }
+  ],
+
+  "globals": {
+    "isLoggedIn": true,
+    "dark_mode": false,
+    "notification": true,
+    "show_percentage": true
+  }
+}
