@@ -1,37 +1,63 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
 import PressableButton from "@/components/Buttons/PressableButton";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
+import Icon from "@/assets/LandingAssets/logo.png";
 
 export default function LandingComponent({
   nextQuestion,
 }: {
   nextQuestion: () => void;
 }) {
+  const { theme } = useContext(ThemeContext);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Fit Quest</Text>
+    <View style={styles(theme).container}>
+      <Image style={styles(theme).image} source={Icon} />
+      <Text style={styles(theme).title}>
+        Welcome to <Text style={styles(theme).highlightedText}>Fit Quest</Text>
+      </Text>
       <PressableButton
         onPress={() => {
           nextQuestion();
         }}
         title={"Continue"}
       />
-      <Text style={styles.title}>Your fitness journey starts here</Text>
-      {/* Add your screen content here */}
+      <Text style={styles(theme).subtitle}>
+        Your fitness journey starts here
+      </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.colors.transparent,
+    },
+    title: {
+      fontFamily: theme.fonts.regular,
+      color: theme.colors.white,
+      fontSize: 20,
+      margin: 20,
+    },
+    image: {
+      marginLeft: 30,
+      height: "30%",
+      width: 300,
+      resizeMode: "contain",
+    },
+    subtitle: {
+      fontFamily: theme.fonts.regular,
+      color: theme.colors.white,
+      fontSize: 12,
+      margin: 10,
+    },
+    highlightedText: {
+      fontFamily: theme.fonts.bold,
+      color: theme.colors.light_purple, // Change to whatever color you want
+      fontSize: 22,
+    },
+  });

@@ -1,5 +1,5 @@
 import { FormData } from "@/screens/landing";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
 
 interface PressableButtonLandingProps {
   handleInputChange: () => void;
@@ -16,6 +17,7 @@ interface PressableButtonLandingProps {
 
 const PressableButtonLanding = (props: PressableButtonLandingProps) => {
   const [isPressed, setIsPressed] = useState(props.state || false);
+  const { theme } = useContext(ThemeContext);
 
   const handlePress = () => {
     setIsPressed((prevState) => !prevState);
@@ -23,40 +25,45 @@ const PressableButtonLanding = (props: PressableButtonLandingProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          handlePress();
-        }}
-        style={[styles.button, isPressed ? styles.pressed : styles.notPressed]}
-      >
-        <Text style={styles.text}>{props.title}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={() => {
+        handlePress();
+      }}
+      style={[
+        styles(theme).button,
+        isPressed ? styles(theme).pressed : styles(theme).notPressed,
+      ]}
+    >
+      <Text style={styles(theme).text}>{props.title}</Text>
+    </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
-  },
-  notPressed: {
-    backgroundColor: "#007AFF",
-  },
-  pressed: {
-    backgroundColor: "#0056b3",
-  },
-  text: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    button: {
+      paddingVertical: 12,
+      borderRadius: 14,
+      margin: 10,
+      width: 220,
+      textAlign: "center",
+    },
+    notPressed: {
+      backgroundColor: theme.colors.transparent,
+      borderColor: theme.colors.white,
+      borderWidth: 1.5,
+    },
+    pressed: {
+      backgroundColor: theme.colors.purple,
+      borderColor: theme.colors.purple,
+      borderWidth: 1.5,
+    },
+    text: {
+      textAlign: "center",
+      letterSpacing: 1,
+      color: "white",
+      fontSize: 14,
+      fontFamily: theme.fonts.regular,
+    },
+  });
 export default PressableButtonLanding;

@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
 
 interface ButtonProps {
   text: string;
@@ -7,12 +8,16 @@ interface ButtonProps {
   selectedButton: string | null;
 }
 const ButtonMealDay = (props: ButtonProps) => {
+  const { theme } = useContext(ThemeContext);
   const isSelected = props.selectedButton === props.text;
   const buttonStyle = [
-    styles.buttonContainer,
-    isSelected && styles.selectedButtonContainer,
+    styles(theme).buttonContainer,
+    isSelected && styles(theme).selectedButtonContainer,
   ];
-  const textStyle = [styles.button, isSelected && styles.selectedButtonText];
+  const textStyle = [
+    styles(theme).button,
+    isSelected && styles(theme).selectedButtonText,
+  ];
 
   return (
     <Pressable
@@ -24,30 +29,33 @@ const ButtonMealDay = (props: ButtonProps) => {
     </Pressable>
   );
 };
-const styles = StyleSheet.create({
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonContainer: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-    marginHorizontal: 4,
-    backgroundColor: "#fff",
-  },
-  selectedButtonContainer: {
-    backgroundColor: "#007AFF",
-  },
-  button: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  selectedButtonText: {
-    color: "#fff",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    buttonsContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    buttonContainer: {
+      width: 35,
+      height: 35,
+      borderRadius: 50,
+      marginHorizontal: 2,
+      backgroundColor: theme.colors.transparent,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    selectedButtonContainer: {
+      backgroundColor: theme.colors.purple,
+    },
+    button: {
+      fontFamily: theme.fonts.bold,
+      fontSize: 12,
+      color: theme.colors.text,
+    },
+    selectedButtonText: {
+      color: theme.colors.white,
+    },
+  });
 
 export default ButtonMealDay;

@@ -18,15 +18,17 @@ export default function useCachedResources() {
   useEffect(() => {
     const loadResourcesAndDataAsync = async () => {
       try {
-        // await clearGlobals();
+        await clearGlobals();
         await clearExercises();
-        // await clearUsers();
+        await clearUsers();
         await initGlobals();
         await initExercises();
         await initUsers();
-        // await Font.loadAsync({
-        //   neon: require("../assets/fonts/TiltNeon-Regular.ttf"),
-        // });
+        await Font.loadAsync({
+          "Inter-Regular": require("@/assets/fonts/Inter-Regular.ttf"),
+          "Inter-Medium": require("@/assets/fonts/Inter-Medium.ttf"),
+          "Inter-Bold": require("@/assets/fonts/Inter-Bold.ttf"),
+        });
       } catch (error) {
         console.warn(error);
       } finally {

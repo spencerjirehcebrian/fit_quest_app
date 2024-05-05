@@ -1,0 +1,5 @@
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
+  const { theme } = useContext(ThemeContext);
+(theme)
+const styles = (theme: Theme) =>
+  StyleSheet.create({
