@@ -1,44 +1,50 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
 
 const ButtonHeader = ({ onPress, title }: { onPress?: any; title: any }) => {
+  const { theme } = useContext(ThemeContext);
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.button, pressed ? styles.pressed : null]}
+      style={({ pressed }) => [
+        styles(theme).button,
+        pressed ? styles(theme).pressed : null,
+      ]}
     >
-      <Text style={styles.text}>{title}</Text>
+      <Text style={styles(theme).text}>{title}</Text>
     </Pressable>
   );
 };
 
-const styles = StyleSheet.create({
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: "#007AFF",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    button: {
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 4,
+      paddingHorizontal: 12,
+      width: 120,
+      borderRadius: 8,
+      backgroundColor: "#D9D9D9",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  text: {
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    color: "white",
-  },
-  pressed: {
-    opacity: 0.5,
-  },
-});
+    text: {
+      fontFamily: theme.fonts.bold,
+      fontSize: 12,
+      lineHeight: 12,
+      letterSpacing: 0.25,
+      color: theme.colors.purple,
+    },
+    pressed: {
+      backgroundColor: theme.colors.dark_purple,
+    },
+  });
 
 export default ButtonHeader;

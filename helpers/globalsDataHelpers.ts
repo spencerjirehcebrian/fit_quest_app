@@ -14,7 +14,7 @@ export const getGlobalsLogged = async (): Promise<boolean> => {
   return check;
 };
 
-export const getGlobals = async (): Promise<Globals[]> => {
+export const getGlobals = async (): Promise<Globals> => {
   const globals = await getData("globals");
   return globals;
 };

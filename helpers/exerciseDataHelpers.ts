@@ -5,11 +5,25 @@ import {
   storeData,
 } from "@/helpers/dataHelpers";
 import data from "@/data.json";
-import { Exercise } from "@/types/data";
+import { Exercise, SequenceType } from "@/types/data";
 
 export const getExercises = async (): Promise<Exercise[]> => {
   const exercise = await getData("exercises");
   return exercise;
+};
+export const getExercisesByIndex = async (
+  index: number
+): Promise<SequenceType[]> => {
+  try {
+    const exercises = await getExercises();
+    if (index >= 0 && index < exercises.length) {
+      return exercises[index].sequence;
+    }
+    return []; // Return an empty array if the index is out of bounds
+  } catch (error) {
+    console.error("Error retrieving sequence from AsyncStorage:", error);
+    return [];
+  }
 };
 export const initExercises = async (): Promise<boolean> => {
   const hasExercises = await containsKey("exercises");

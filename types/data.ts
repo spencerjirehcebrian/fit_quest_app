@@ -48,8 +48,18 @@ interface Reminder {
   reminder_count: number;
 }
 
-interface Achievement {
-  name: string;
+// export interface Achievement {
+//   step_champ?: boolean;
+//   progress_champ?: boolean;
+//   streak_star?: boolean;
+//   health_foodie?: boolean;
+//   calorie_crusher?: boolean;
+//   sleep_sensei?: boolean;
+//   workout_warrior?: boolean;
+// }
+
+export interface Achievement {
+  [key: string]: boolean | undefined;
 }
 
 export type MealType = "Breakfast" | "Lunch" | "Dinner";
@@ -81,13 +91,13 @@ export interface Exercise {
 
 export interface User {
   username?: string;
-  age?: number;
+  age?: string;
   email?: string;
   gender?: string;
   dob?: string;
   location?: string;
-  weight?: number;
-  height?: number;
+  weight?: string;
+  height?: string;
   goals?: string[];
   daily_walk?: string;
   fitness_level?: string;
@@ -100,16 +110,21 @@ export interface User {
   sleep_time?: SleepTime[];
   stress_level?: StressLevel[];
   water_intake?: WaterIntake[];
-  period?: Period[];
+  period?: number;
   weight_track?: WeightTrack[];
-  medication?: Medication[];
-  reminder?: Reminder[];
-  fitness_streak?: number;
+  medication?: string;
+  reminder?: string;
+  fitness_streak?: Array<string>;
   points?: number;
-  achievements?: Achievement[];
+  achievements?: Achievement;
   file_expo_image?: string;
   progress?: number;
+  done_workouts?: Array<string>;
   meal?: Meal[];
+  kettle_points?: number;
+  light_purple_count?: number;
+  purple_count?: number;
+  dark_purple_count?: number;
 }
 
 export interface Globals {
@@ -117,6 +132,17 @@ export interface Globals {
   dark_mode?: boolean;
   notification?: boolean;
   show_percentage?: boolean;
+  show_steps?: boolean;
+  show_minutes?: boolean;
+  show_calories?: boolean;
+  show_sleep?: boolean;
+  show_stress?: boolean;
+  show_water?: boolean;
+  show_period?: boolean;
+  show_weight?: boolean;
+  show_medication?: boolean;
+  show_reminder?: boolean;
+  show_fitness_streak?: boolean;
 }
 
 interface Data {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import { getUsers } from "@/helpers/userDataHelpers";
 import { getExercises } from "@/helpers/exerciseDataHelpers";
 import { Exercise } from "@/types/data";
 
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
 export default function MainExerciseComponent({
   category,
   navigation,
@@ -19,6 +20,7 @@ export default function MainExerciseComponent({
   category: number;
   navigation: any;
 }) {
+  const { theme } = useContext(ThemeContext);
   const filterArray = ["None", "None", "Arms", "Chest", "Legs"];
   const [filter, setFilter] = useState(0);
   const [exerciseStorage, setExerciseStorage] = useState<Exercise[]>([]);
@@ -37,12 +39,13 @@ export default function MainExerciseComponent({
     retrieve();
   }, []);
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+    <View style={styles(theme).container}>
+      <ScrollView contentContainerStyle={styles(theme).scrollViewContent}>
         {exerciseStorage.map((exercise, index) => (
           <PressableExerciseComponent
             navigation={navigation}
             key={index}
+            mainIndex={index}
             exercise={exercise}
           />
         ))}
@@ -51,42 +54,39 @@ export default function MainExerciseComponent({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  mainText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  imagesContainer: {
-    alignItems: "center",
-  },
-  imageContainer: {
-    marginVertical: 10,
-  },
-  image: {
-    width: 300,
-    height: 200,
-  },
-  textContainer: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-  },
-  imageText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-    textShadowColor: "rgba(0, 0, 0, 0.75)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingVertical: 16,
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      width: "100%",
+    },
+    mainText: {
+      fontSize: 24,
+      fontWeight: "bold",
+      marginBottom: 20,
+    },
+    imagesContainer: {
+      alignItems: "center",
+    },
+    imageContainer: {
+      marginVertical: 10,
+    },
+    textContainer: {
+      position: "absolute",
+      bottom: 10,
+      right: 10,
+    },
+    imageText: {
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
+      textShadowColor: "rgba(0, 0, 0, 0.75)",
+      textShadowOffset: { width: -1, height: 1 },
+      textShadowRadius: 10,
+    },
+    scrollViewContent: {
+      flexGrow: 1,
+      paddingVertical: 16,
+      width: "100%",
+    },
+  });

@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
 
 const PressableLandingModal = ({
   onPress,

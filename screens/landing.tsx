@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, BackHandler } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  BackHandler,
+  ImageBackground,
+} from "react-native";
 import PressableButton from "@/components/Buttons/PressableButton";
 import LandingComponent from "@/components/LandingComponents/LandingComponent";
 import WelcomeComponent from "@/components/LandingComponents/WelcomeComponent";
@@ -13,13 +19,15 @@ import Question7 from "@/components/LandingComponents/Question7";
 import { updateUser } from "@/helpers/userDataHelpers";
 import { Globals, User } from "@/types/data";
 import { getGlobalsLogged, updateGlobals } from "@/helpers/globalsDataHelpers";
+import { ThemeContext, Theme } from "@/themes/ThemeContext";
+import BackgroundImage from "@/assets/LandingAssets/bg.png"; // Path to your background image
 
 export interface FormData {
   username: string;
-  age: number;
+  age: string;
   gender: string;
-  weight: number;
-  height: number;
+  weight: string;
+  height: string;
   goals: string[];
   daily_walk: string;
   fitness_level: string;
@@ -29,6 +37,7 @@ export interface FormData {
 }
 
 export default function LandingScreen({ navigation }: any) {
+  const { theme } = useContext(ThemeContext);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const nextQuestion = () => {
     setCurrentQuestion(currentQuestion + 1);
@@ -55,10 +64,10 @@ export default function LandingScreen({ navigation }: any) {
 
   const [formData, setFormData] = useState<FormData>({
     username: "",
-    age: 0,
+    age: "",
     gender: "",
-    weight: 0,
-    height: 0,
+    weight: "",
+    height: "",
     goals: [],
     daily_walk: "",
     fitness_level: "",
@@ -128,87 +137,103 @@ export default function LandingScreen({ navigation }: any) {
   };
 
   return (
-    <View style={styles.container}>
-      {currentQuestion === 0 && (
-        <LandingComponent nextQuestion={nextQuestion} />
-      )}
-      {currentQuestion === 1 && (
-        <Question1
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 2 && (
-        <Question2
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 3 && (
-        <Question3
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 4 && (
-        <Question4
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 5 && (
-        <Question5
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 6 && (
-        <Question6
-          handleInputChange={(field, value) => handleInputChange(field, value)}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 7 && (
-        <Question7
-          handleInputChangeGender={(field, value) =>
-            handleInputChange(field, value)
-          }
-          handleInputChangeWeight={(field, value) =>
-            handleInputChange(field, value)
-          }
-          handleInputChangeHeight={(field, value) =>
-            handleInputChange(field, value)
-          }
-          handleInputChangeUsername={(field, value) =>
-            handleInputChange(field, value)
-          }
-          handleInputChangeAge={(field, value) =>
-            handleInputChange(field, value)
-          }
-          value1={formData.username}
-          value2={formData.age}
-          value3={formData.height}
-          value4={formData.weight}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 8 && (
-        <WelcomeComponent nextQuestion={handleSubmit} />
-      )}
-    </View>
+    <ImageBackground source={BackgroundImage} style={styles(theme).background}>
+      <View style={styles(theme).container}>
+        {currentQuestion === 0 && (
+          <LandingComponent nextQuestion={nextQuestion} />
+        )}
+        {currentQuestion === 1 && (
+          <Question1
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 2 && (
+          <Question2
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 3 && (
+          <Question3
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 4 && (
+          <Question4
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 5 && (
+          <Question5
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 6 && (
+          <Question6
+            handleInputChange={(field, value) =>
+              handleInputChange(field, value)
+            }
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 7 && (
+          <Question7
+            handleInputChangeGender={(field, value) =>
+              handleInputChange(field, value)
+            }
+            handleInputChangeWeight={(field, value) =>
+              handleInputChange(field, value)
+            }
+            handleInputChangeHeight={(field, value) =>
+              handleInputChange(field, value)
+            }
+            handleInputChangeUsername={(field, value) =>
+              handleInputChange(field, value)
+            }
+            handleInputChangeAge={(field, value) =>
+              handleInputChange(field, value)
+            }
+            value1={formData.username}
+            value2={formData.age}
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 8 && (
+          <WelcomeComponent nextQuestion={handleSubmit} />
+        )}
+      </View>
+    </ImageBackground>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      fontFamily: theme.fonts.regular,
+    },
+    background: {
+      flex: 1,
+      resizeMode: "cover",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      height: "100%",
+    },
+  });
