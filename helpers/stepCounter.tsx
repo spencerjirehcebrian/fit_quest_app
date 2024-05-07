@@ -59,6 +59,8 @@ export default function useStepCounter() {
         console.log("Pedometer permission denied");
         return false;
       }
+
+      //   console.log(status);
       return true;
     } catch (error) {
       console.log("Error requesting pedometer permission:", error);
@@ -66,31 +68,51 @@ export default function useStepCounter() {
     }
   };
 
-  const getStepCount = async () => {
+  //   const getStepCount = async () => {
+  //     const isAvailable = await Pedometer.isAvailableAsync();
+  //     setIsPedometerAvailable(String(isAvailable));
+
+  //     if (isAvailable) {
+  //       //   const now = new Date();
+  //       //   const midnight = new Date(
+  //       //     now.getFullYear(),
+  //       //     now.getMonth(),
+  //       //     now.getDate(),
+  //       //     0,
+  //       //     0,
+  //       //     0
+  //       //   );
+  //       //   const stepCountResult = await Pedometer.getStepCountAsync(midnight, now);
+  //       //   if (stepCountResult) {
+  //       //     setStepCount(stepCountResult.steps);
+  //       //     console.log(stepCountResult.steps);
+  //       //     onDone(stepCountResult.steps);
+  //       //   }
+  //       //   console.log(stepCountResult);
+  //     }
+  //   };
+
+  //   useEffect(() => {
+  //     requestPedometerPermission();
+  //     getStepCount();
+  //   }, []);
+  const subscribe = async () => {
     const isAvailable = await Pedometer.isAvailableAsync();
     setIsPedometerAvailable(String(isAvailable));
 
     if (isAvailable) {
-      const now = new Date();
-      const midnight = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        0,
-        0,
-        0
-      );
-      const stepCountResult = await Pedometer.getStepCountAsync(midnight, now);
-      if (stepCountResult) {
-        setStepCount(stepCountResult.steps);
-        console.log(stepCountResult.steps);
-        onDone(stepCountResult.steps);
-      }
+      return Pedometer.watchStepCount((result) => {
+        console.log("steps", result.steps);
+        onDone(result.steps);
+      });
+    } else {
+      alert("There is no available pedometer on this device");
     }
   };
 
   useEffect(() => {
+    console.log("requested");
     requestPedometerPermission();
-    getStepCount();
+    subscribe();
   }, []);
 }

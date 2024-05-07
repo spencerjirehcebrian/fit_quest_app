@@ -63,8 +63,9 @@ export default function SettingsScreen({ navigation }: { navigation: any }) {
       });
     };
     updates();
-    toggleTheme();
   }, [isToggledDarkMode, isToggledNotification, isToggledPercentage]);
+
+  useEffect(() => {}, [isToggledDarkMode]);
 
   return (
     <View style={styles(theme).container}>
@@ -114,7 +115,10 @@ export default function SettingsScreen({ navigation }: { navigation: any }) {
             }}
             thumbColor={theme.colors.dark_purple}
             ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch1}
+            onValueChange={() => {
+              toggleSwitch1();
+              toggleTheme();
+            }}
             value={isToggledDarkMode}
             style={styles(theme).toggle}
           />
@@ -279,7 +283,6 @@ const styles = (theme: Theme) =>
     backbutton: {
       width: 20,
       height: 20,
-      resizeMode: "contain",
     },
     line: {
       borderBottomWidth: 1,

@@ -20,7 +20,7 @@ export default function useCountDown(
         setCountDown((count) => {
           return count - 1;
         });
-      }, 100);
+      }, 1000);
     }
     return cleanup;
   }, [idx, trigger, isRunning]);

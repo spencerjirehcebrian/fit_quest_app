@@ -13,11 +13,13 @@ Notifications.requestPermissionsAsync().then((statusObj) => {
   if (statusObj.status !== "granted") {
     return;
   }
+  console.log("mwoeqoweoqowe,", statusObj.status);
 });
 Pedometer.requestPermissionsAsync().then((statusObj) => {
   if (statusObj.status !== "granted") {
     return;
   }
+  console.log("mwoqweqweeqweqoweoqowe,", statusObj.status);
 });
 export default function App() {
   const isLoaded = useCachedResources();

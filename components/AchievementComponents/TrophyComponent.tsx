@@ -161,7 +161,6 @@ const styles = (theme: Theme) =>
       width: "100%",
       height: "100%",
       alignItems: "center",
-      marginBottom: 30,
       // justifyContent: "space-around",
     },
     topRow: {
@@ -261,5 +260,6 @@ const styles = (theme: Theme) =>
       width: "100%",
       paddingHorizontal: 20,
       backgroundColor: theme.colors.background,
+      paddingBottom: 30,
     },
   });

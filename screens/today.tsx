@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
 import CustomHeader from "@/components/CustomHeader";
 import useCheckAcheivements from "@/hooks/useCheckAcheivements";
@@ -36,6 +37,7 @@ import PressableExerciseComponent from "@/components/ExerciseComponents/Pressabl
 import { getExercises } from "@/helpers/exerciseDataHelpers";
 import useStepCounter from "@/helpers/stepCounter";
 import WheelPicker from "react-native-wheely";
+import WheelPickerExpo from "react-native-wheel-picker-expo";
 
 const { width, height } = Dimensions.get("window");
 const titles = [
@@ -207,11 +209,21 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
   const [userData, setUserData] = useState<User>({});
   const [items, setItems] = useState<itemType[]>([]);
   const [randomNumber, setRandomNumber] = useState<number>(0);
+  const [forceUpdate, setForceUpdate] = useState(0);
   const [medication, setMedication] = useState(0);
   const [reminder, setReminder] = useState(0);
+  const [dataHolder, setDataHolder] = useState({
+    water_intake_update: 0,
+    sleep_time_update: 0,
+    period_update: 0,
+    stress_level_update: 0,
+    medication_update: "",
+    weight_track_update: 0,
+    reminder_updated: "",
+  });
 
   const sleepArray = generateSleepArray();
-  const [sleepIndex, setSleepIndex] = useState(0);
+  const [sleepIndex, setSleepIndex] = useState(5);
   const updateSleep = (index: number) => {
     setSleepIndex(index);
     setDataHolder((prevState) => ({
@@ -251,7 +263,7 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
   };
 
   const weightArray = generateWeightArray();
-  const [weightIndex, setWeightIndex] = useState(50);
+  const [weightIndex, setWeightIndex] = useState(0);
   const updateWeight = (index: number) => {
     setWeightIndex(index);
     setDataHolder((prevState) => ({
@@ -492,7 +504,7 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       // console.log(tempItemData);
     };
     retrieve();
-  }, [halfModalVisibilities, modalVisibilities, startIndex]);
+  }, [halfModalVisibilities, startIndex, modalVisibilities, forceUpdate]);
 
   const handlePageChange = (pageIndex: number) => {
     setStartIndex(pageIndex * 3);
@@ -540,16 +552,6 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
     }
   };
 
-  const [dataHolder, setDataHolder] = useState({
-    water_intake_update: 0,
-    sleep_time_update: 0,
-    period_update: 0,
-    stress_level_update: 0,
-    medication_update: "",
-    weight_track_update: 0,
-    reminder_updated: "",
-  });
-
   const onDone = async (
     key: any,
     key_count: any,
@@ -593,47 +595,55 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
 
   return (
     <View style={styles(theme).container}>
-      <View style={styles(theme).containerTabs}>
-        <RenderItems items={items} startIndex={startIndex} />
-        <RenderDots
-          items={items}
-          startIndex={startIndex}
-          handlePageChange={handlePageChange}
-        />
-      </View>
-
-      <View style={styles(theme).bottomContainer}>
-        <Text style={styles(theme).bottomText3}>Start Exercising!</Text>
-        {exerciseData && (
-          <PressableExerciseComponent
-            navigation={navigation}
-            exercise={exerciseData![randomNumber]}
-            mainIndex={randomNumber}
-          />
-        )}
-
-        <View style={styles(theme).line} />
-      </View>
-      <View style={styles(theme).centerContainer}>
-        {/* <CircularBarComponent percentage={percentage} /> */}
-        <Image
-          source={circle}
-          resizeMode="contain"
-          style={{
-            top: 22,
-            left: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            opacity: theme.opacity,
-          }}
-        />
-        <Text style={styles(theme).bottomText}>{percentage * 0.1}%</Text>
-        <Text style={styles(theme).bottomText2}>COMPLETE</Text>
-      </View>
       <View style={styles(theme).headerContainer}>
         <CustomHeader navigation={navigation} isMin={false} />
       </View>
+      <ScrollView
+        style={{
+          flex: 1,
+          marginTop: 130,
+          width: "100%",
+          height: "100%",
+          paddingBottom: 30,
+        }}
+      >
+        <View style={styles(theme).containerTabs}>
+          <RenderItems items={items} startIndex={startIndex} />
+          <RenderDots
+            items={items}
+            startIndex={startIndex}
+            handlePageChange={handlePageChange}
+          />
+        </View>
 
+        <View style={styles(theme).bottomContainer}>
+          <Text style={styles(theme).bottomText3}>Start Exercising!</Text>
+          {exerciseData && (
+            <PressableExerciseComponent
+              navigation={navigation}
+              exercise={exerciseData![randomNumber]}
+              mainIndex={randomNumber}
+            />
+          )}
+
+          <View style={styles(theme).line} />
+        </View>
+        <View style={styles(theme).centerContainer}>
+          <Image
+            source={circle}
+            resizeMode="contain"
+            style={{
+              top: 22,
+              left: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: theme.opacity,
+            }}
+          />
+          <Text style={styles(theme).bottomText}>{percentage * 0.1}%</Text>
+          <Text style={styles(theme).bottomText2}>COMPLETE</Text>
+        </View>
+      </ScrollView>
       {titles.map(
         (title, index) =>
           !specialIndices.includes(index) && (
@@ -661,26 +671,55 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       >
         <View>
           <Text style={styles(theme).modalText}>Water Intake</Text>
-          <WheelPicker
-            selectedIndex={cupsIndex}
-            options={cupsArray}
-            onChange={(index) => {
-              updateCups(index);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              // selectedStyle={{
+              //   borderColor: theme.colors.white,
+              //   borderWidth: 2,
+              // }}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={cupsIndex}
+              items={cupsArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => updateCups(index)}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
       <HalfScreenModal
@@ -692,26 +731,51 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       >
         <View>
           <Text style={styles(theme).modalText}>Period</Text>
-          <WheelPicker
-            selectedIndex={periodIndex}
-            options={periodArray}
-            onChange={(index) => {
-              updatePeriod(index);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={periodIndex}
+              items={periodArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => updatePeriod(index)}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
       <HalfScreenModal
@@ -723,38 +787,51 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       >
         <View style={styles(theme).modal}>
           <Text style={styles(theme).modalText}>Sleeping Time</Text>
-          {/* <TextInput
-            style={[styles(theme).input]}
-            value={dataHolder.sleep_time_update.toString()}
-            onChangeText={(value) =>
-              setDataHolder((prevState) => ({
-                ...prevState,
-                sleep_time_update: parseInt(value) || 0,
-              }))
-            }
-            placeholder={"Sleep"}
-            inputMode="numeric"
-          /> */}
-          <WheelPicker
-            selectedIndex={sleepIndex}
-            options={sleepArray}
-            onChange={(index) => {
-              updateSleep(index);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={sleepIndex}
+              items={sleepArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => updateSleep(index)}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
       <HalfScreenModal
@@ -770,26 +847,51 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       >
         <View>
           <Text style={styles(theme).modalText}>Stress Level</Text>
-          <WheelPicker
-            selectedIndex={stressIndex}
-            options={stressArray}
-            onChange={(index) => {
-              updateStress(index);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={stressIndex}
+              items={stressArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => updateStress(index)}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
       <HalfScreenModal
@@ -836,26 +938,51 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       >
         <View>
           <Text style={styles(theme).modalText}>Weight Track</Text>
-          <WheelPicker
-            selectedIndex={weightIndex}
-            options={weightArray}
-            onChange={(index) => {
-              updateWeight(index);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={weightIndex}
+              items={weightArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => updateWeight(index)}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
       <HalfScreenModal
@@ -920,12 +1047,7 @@ const styles = (theme: Theme) =>
       fontWeight: "bold",
       marginBottom: 16,
     },
-    contentContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 120, // Adjust this value to provide enough space for the header
-    },
+
     containerInner: {
       flex: 1,
       justifyContent: "space-between",
@@ -987,7 +1109,7 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
       flex: 1,
       position: "absolute",
-      top: height * 0.15,
+      top: 10,
       left: -110,
     },
     rightContainer: {
@@ -1075,10 +1197,11 @@ const styles = (theme: Theme) =>
     },
     containerTabs: {
       zIndex: 1,
-      position: "absolute",
-      top: height * 0.18,
-      right: 10,
+      width: "60%",
+      marginRight: 10,
+      marginTop: 15,
       flex: 1,
+      alignSelf: "flex-end",
       alignItems: "center",
       justifyContent: "center",
     },
@@ -1122,6 +1245,7 @@ const styles = (theme: Theme) =>
       elevation: 5, // This is for Android
     },
     line: {
+      marginBottom: 30,
       alignContent: "center",
       alignSelf: "center",
       width: "80%",
@@ -1131,9 +1255,8 @@ const styles = (theme: Theme) =>
       marginTop: 10,
     },
     bottomContainer: {
-      position: "absolute",
-      top: height * 0.6,
       width: "100%",
+      marginTop: 100,
     },
     modal: {
       justifyContent: "space-between",

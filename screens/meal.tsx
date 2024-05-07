@@ -5,8 +5,10 @@ import { View, Text, StyleSheet } from "react-native";
 import MainMealComponent from "@/components/MealComponents/MainMealComponent";
 import { getUsers } from "@/helpers/userDataHelpers";
 import { ThemeContext, Theme } from "@/themes/ThemeContext";
+import useStepCounter from "@/helpers/stepCounter";
 
 const MealScreen: React.FC = ({ navigation }: any) => {
+  useStepCounter();
   const { theme } = useContext(ThemeContext);
   useEffect(() => {
     const check = async () => {
@@ -14,8 +16,6 @@ const MealScreen: React.FC = ({ navigation }: any) => {
       if (!isLoggedIn) {
         navigation.navigate("Landing");
       }
-      const user = await getUsers();
-      console.log(user);
     };
     check();
   }, []);

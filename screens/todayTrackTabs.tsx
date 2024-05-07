@@ -13,8 +13,8 @@ import { getUsers } from "@/helpers/userDataHelpers";
 import convertDataHelper from "@/helpers/convertDateHelper";
 import { User } from "@/types/data";
 import { ThemeContext, Theme } from "@/themes/ThemeContext";
-import BButton from "@/assets/HomeAssets/b_arrow.png";
-import NButton from "@/assets/HomeAssets/n_arrow.png";
+import { Ionicons } from "@expo/vector-icons";
+import useStepCounter from "@/helpers/stepCounter";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,11 +49,10 @@ function getTotalStepsForCurrentWeek(
   }
 
   for (const { date, [propertyName]: count } of countData) {
-    if (stepsForWeek[date]) {
-      stepsForWeek[date] += count;
-    }
+    stepsForWeek[date] += count;
   }
 
+  console.log(stepsForWeek);
   return stepsForWeek;
 }
 
@@ -135,6 +134,7 @@ type TUserData = {
 };
 
 export default function TodayTrackTab({ route, navigation }: any) {
+  // useStepCounter();
   const { theme } = useContext(ThemeContext);
   const { type, key, count_key, image } = route.params;
   const currentDate = new Date();
@@ -467,7 +467,7 @@ export default function TodayTrackTab({ route, navigation }: any) {
   return (
     <View style={styles(theme).container}>
       <View style={styles(theme).headerContainer}>
-        <CustomHeader navigation={navigation} isMin={false} />
+        <CustomHeader navigation={navigation} isMin={false} isToday={true} />
       </View>
 
       <View style={styles(theme).contentContainer}>
@@ -543,13 +543,23 @@ export default function TodayTrackTab({ route, navigation }: any) {
           {showPrev && (
             <TouchableOpacity onPress={handlePrevPage}>
               {/* <Text style={styles(theme).buttonText}>Prev</Text> */}
-              <Image source={BButton} style={styles(theme).pbutton} />
+              <Ionicons
+                name="chevron-back"
+                size={25}
+                color={theme.colors.text}
+                style={styles(theme).pbutton}
+              />
             </TouchableOpacity>
           )}
           {showNext && (
             <TouchableOpacity onPress={handleNextPage}>
               {/* <Text style={styles(theme).buttonText}>Next</Text> */}
-              <Image source={NButton} style={styles(theme).nbutton} />
+              <Ionicons
+                name="chevron-forward"
+                size={25}
+                color={theme.colors.text}
+                style={styles(theme).nbutton}
+              />
             </TouchableOpacity>
           )}
         </>
@@ -609,7 +619,7 @@ const styles = (theme: Theme) =>
       alignSelf: "center",
     },
     xText: {
-      color: theme.colors.purple,
+      color: theme.colors.text,
       fontFamily: theme.fonts.bold,
       fontSize: 20,
     },
@@ -757,7 +767,6 @@ const styles = (theme: Theme) =>
       textAlign: "center",
     },
     pbutton: {
-      resizeMode: "contain",
       position: "absolute",
       bottom: height * 0.23,
       left: -13,
@@ -765,7 +774,6 @@ const styles = (theme: Theme) =>
       height: 25,
     },
     nbutton: {
-      resizeMode: "contain",
       position: "absolute",
       bottom: height * 0.23,
       right: -13,
