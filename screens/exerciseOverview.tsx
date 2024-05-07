@@ -167,7 +167,6 @@ const styles = (theme: Theme) =>
     buttonImage: {
       width: 20,
       height: 20,
-      resizeMode: "contain", // Adjust this as needed
     },
     image: {
       position: "absolute",
@@ -175,7 +174,6 @@ const styles = (theme: Theme) =>
       height: 300,
       top: 0,
       left: 0,
-      resizeMode: "cover", // Adjust this as needed
       opacity: 0.7,
     },
     line: {

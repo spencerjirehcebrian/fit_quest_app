@@ -50,7 +50,7 @@ export const updateUser = async (newUserData: User): Promise<void> => {
     // 3. Save the updated "user" object back to AsyncStorage
     await storeData("user", user);
     const meow = await getUsers();
-    console.log(meow);
+    // console.log(meow);
     console.log("updating");
   } catch (error) {
     console.error("Error updating user:", error);

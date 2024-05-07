@@ -67,7 +67,7 @@ export default function MainMealComponent() {
   };
 
   const today = new Date();
-  const daysOfWeek = ["SUN", "MON", "TUES", "WED", "THURS", "FRI", "SAT"];
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const dayIndex = new Date(today).getDay();
   const day = daysOfWeek[dayIndex];
 
@@ -178,135 +178,146 @@ export default function MainMealComponent() {
   };
 
   return (
-    <ScrollView style={styles(theme).container}>
-      <View style={styles(theme).containerInner}>
-        <Text style={styles(theme).label}>Meal</Text>
+    <View style={styles(theme).containerInner}>
+      <Text style={styles(theme).label}>Meal</Text>
 
-        <View style={styles(theme).buttonContainer}>
-          {(mealType[selectedIndex] === "Lunch" ||
-            mealType[selectedIndex] === "Dinner") && (
-            <Pressable
-              onPress={() => handleMealTypeShift("down")}
-              style={styles(theme).buttonContainerB}
-            >
-              <Ionicons
-                name="chevron-back"
-                size={24}
-                color={theme.colors.text}
-                style={styles(theme).BButtonImage}
-              />
-            </Pressable>
-          )}
-          <Text style={styles(theme).button}>{mealType[selectedIndex]}</Text>
-          {(mealType[selectedIndex] === "Lunch" ||
-            mealType[selectedIndex] === "Breakfast") && (
-            <Pressable
-              onPress={() => handleMealTypeShift("up")}
-              style={styles(theme).buttonContainerN}
-            >
-              <Ionicons
-                name="chevron-forward"
-                size={24}
-                color={theme.colors.text}
-                style={styles(theme).NButtonImage}
-              />
-            </Pressable>
-          )}
-        </View>
-
-        <View style={styles(theme).buttonsContainer}>
-          <ButtonMealDay
-            text="SUN"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="MON"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="TUE"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="WED"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="THU"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="FRI"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-          <ButtonMealDay
-            text="SAT"
-            handleButtonPress={handleButtonPress}
-            selectedButton={selectedButton}
-          />
-        </View>
-
-        <TouchableOpacity
-          style={styles(theme).imageContainer}
-          onPress={pickImage}
-        >
-          {selectedImage ? (
-            <Image
-              source={{ uri: selectedImage }}
-              style={styles(theme).image}
-              resizeMode="contain"
+      <View style={styles(theme).buttonContainer1}>
+        {(mealType[selectedIndex] === "Lunch" ||
+          mealType[selectedIndex] === "Dinner") && (
+          <Pressable
+            onPress={() => handleMealTypeShift("down")}
+            style={styles(theme).buttonContainerB}
+          >
+            <Ionicons
+              name="chevron-back"
+              size={24}
+              color={theme.colors.text}
+              style={styles(theme).BButtonImage}
             />
-          ) : (
-            <Image
-              source={Default}
-              style={styles(theme).image}
-              resizeMode="contain"
+          </Pressable>
+        )}
+        <View style={styles(theme).innerButtonContainer}>
+          <Text style={styles(theme).button2}>{mealType[selectedIndex]}</Text>
+        </View>
+        {(mealType[selectedIndex] === "Lunch" ||
+          mealType[selectedIndex] === "Breakfast") && (
+          <Pressable
+            onPress={() => handleMealTypeShift("up")}
+            style={styles(theme).buttonContainerN}
+          >
+            <Ionicons
+              name="chevron-forward"
+              size={24}
+              color={theme.colors.text}
+              style={styles(theme).NButtonImage}
             />
-          )}
-        </TouchableOpacity>
-        {/* One-line TextInput */}
-        <TextInput
-          value={formData.meal_name}
-          onChangeText={(value) => handleChange("meal_name", value)}
-          style={styles(theme).oneLineInput}
-          placeholder="name your food"
-          placeholderTextColor={"rgba(0, 0, 0, 0.3)"}
-        />
-        {/* Large TextInput */}
-        <TextInput
-          value={formData.meal_notes}
-          style={styles(theme).largeInput}
-          onChangeText={(value) => handleChange("meal_notes", value)}
-          multiline
-          placeholderTextColor={"rgba(0, 0, 0, 0.3)"}
-          placeholder="notes..."
-        />
-        <Pressable onPress={handleSubmit} style={styles(theme).buttonContainer}>
-          <Text style={styles(theme).button}>Save</Text>
-        </Pressable>
+          </Pressable>
+        )}
       </View>
-    </ScrollView>
+
+      <View style={styles(theme).buttonsContainer}>
+        <ButtonMealDay
+          text="SUN"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="MON"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="TUE"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="WED"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="THU"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="FRI"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+        <ButtonMealDay
+          text="SAT"
+          handleButtonPress={handleButtonPress}
+          selectedButton={selectedButton}
+        />
+      </View>
+      <ScrollView
+        style={{
+          flex: 1,
+        }}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: 10,
+            marginBottom: 30,
+          }}
+        >
+          <TouchableOpacity
+            style={styles(theme).imageContainer}
+            onPress={pickImage}
+          >
+            {selectedImage ? (
+              <Image
+                source={{ uri: selectedImage }}
+                style={styles(theme).image}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image
+                source={Default}
+                style={styles(theme).image}
+                resizeMode="contain"
+              />
+            )}
+          </TouchableOpacity>
+          {/* One-line TextInput */}
+          <TextInput
+            value={formData.meal_name}
+            onChangeText={(value) => handleChange("meal_name", value)}
+            style={styles(theme).oneLineInput}
+            placeholder="name your food"
+            placeholderTextColor={"rgba(0, 0, 0, 0.3)"}
+          />
+          {/* Large TextInput */}
+          <TextInput
+            value={formData.meal_notes}
+            style={styles(theme).largeInput}
+            onChangeText={(value) => handleChange("meal_notes", value)}
+            multiline
+            placeholderTextColor={"rgba(0, 0, 0, 0.3)"}
+            placeholder="notes..."
+          />
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={styles(theme).buttonContainer}
+          >
+            <Text style={styles(theme).button}>Save</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    container: {
-      width: "100%",
-      height: "100%",
-      backgroundColor: theme.colors.background,
-    },
     containerInner: {
-      alignContent: "center",
       alignItems: "center",
       paddingBottom: 30,
       backgroundColor: theme.colors.background,
+      flex: 1,
     },
     label: {
       fontSize: 18,
@@ -317,24 +328,39 @@ const styles = (theme: Theme) =>
     buttonContainer: {
       marginHorizontal: 8,
       width: 250,
-      flexDirection: "row",
       justifyContent: "center",
-      marginBottom: 30,
-      borderRadius: 6,
+      marginVertical: 10,
+      borderRadius: 20,
+      backgroundColor: theme.colors.purple,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+    },
+    buttonContainer1: {
+      marginHorizontal: 8,
+      width: 200,
+      justifyContent: "center",
+      marginVertical: 10,
     },
     button: {
       fontFamily: theme.fonts.bold,
-      backgroundColor: theme.colors.purple,
       color: theme.colors.white,
-      paddingVertical: 8,
       paddingHorizontal: 16,
       textAlign: "center",
       justifyContent: "center",
       alignContent: "center",
-      position: "absolute",
-      left: 50,
-      right: 50,
-      borderRadius: 20,
+    },
+    innerButtonContainer: {
+      marginHorizontal: 30,
+      borderRadius: 200,
+      backgroundColor: theme.colors.purple,
+    },
+    button2: {
+      fontFamily: theme.fonts.bold,
+      paddingVertical: 10,
+      color: theme.colors.white,
+      textAlign: "center",
+      justifyContent: "center",
+      alignContent: "center",
     },
     image: {
       borderRadius: 100,
@@ -367,12 +393,10 @@ const styles = (theme: Theme) =>
     BButtonImage: {
       width: 20,
       height: 20,
-      resizeMode: "contain",
     },
     NButtonImage: {
       width: 20,
       height: 20,
-      resizeMode: "contain",
     },
     buttonsContainer: {
       flexDirection: "row",

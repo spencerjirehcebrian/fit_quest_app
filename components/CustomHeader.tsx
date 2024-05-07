@@ -62,15 +62,15 @@ const CustomHeader = ({
             <Text style={styles(theme).welcomeLabel}>Welcome {username}!</Text>
           </View>
         </View>
-        {!isMin && (
-          <>
-            <ButtonHeader onPress={handlePress} title="Achievements" />
-            {!isToday && (
-              <Text style={styles(theme).dateLabel2}>How's your day?</Text>
-            )}
-          </>
-        )}
       </TouchableOpacity>
+      {!isMin && (
+        <View style={styles(theme).achieve}>
+          <ButtonHeader onPress={handlePress} title="Achievements" />
+          {!isToday && (
+            <Text style={styles(theme).dateLabel2}>How's your day?</Text>
+          )}
+        </View>
+      )}
       <View style={styles(theme).rightContainer}>
         {!isSettings && (
           <TouchableOpacity
@@ -80,13 +80,13 @@ const CustomHeader = ({
             <Image source={Icon} />
           </TouchableOpacity>
         )}
-        {!isMin && (
-          <View>
-            <Text style={styles(theme).dateLabel1}>Current Points</Text>
-            <ButtonHeader onPress={handlePress} title={points + " points"} />
-          </View>
-        )}
       </View>
+      {!isMin && (
+        <View style={styles(theme).currentPoints}>
+          <Text style={styles(theme).dateLabel1}>Current Points</Text>
+          <ButtonHeader onPress={handlePress} title={points + " points"} />
+        </View>
+      )}
     </View>
   );
 };
@@ -143,7 +143,7 @@ const styles = (theme: Theme) =>
       flexDirection: "column",
       position: "absolute",
 
-      top: 4,
+      top: 10,
       right: 16,
     },
     iconButton: {
@@ -151,6 +151,16 @@ const styles = (theme: Theme) =>
       paddingBottom: 10,
       alignItems: "flex-end",
       backgroundColor: theme.colors.background,
+    },
+    achieve: {
+      position: "absolute",
+      top: 95,
+      left: 15,
+    },
+    currentPoints: {
+      position: "absolute",
+      top: 75,
+      right: 16,
     },
   });
 

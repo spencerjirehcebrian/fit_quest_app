@@ -39,7 +39,7 @@ const HalfScreenModal = ({
     >
       <TouchableWithoutFeedback onPress={handleModalClose}>
         <View style={styles(theme).container}>
-          <View style={[styles(theme).modal, { height: screenHeight / 2 }]}>
+          <View style={[styles(theme).modal, { minHeight: screenHeight / 2 }]}>
             <View style={styles(theme).line}></View>
             {children}
           </View>
@@ -56,6 +56,7 @@ const styles = (theme: Theme) =>
       backgroundColor: "rgba(0, 0, 0, 0.2)",
       justifyContent: "flex-end",
       padding: 10,
+      overflow: "hidden",
     },
     modal: {
       backgroundColor: theme.colors.purple,

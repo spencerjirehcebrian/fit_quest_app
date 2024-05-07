@@ -18,9 +18,9 @@ export default function useCachedResources() {
   useEffect(() => {
     const loadResourcesAndDataAsync = async () => {
       try {
-        await clearGlobals();
-        await clearExercises();
-        await clearUsers();
+        // await clearGlobals();
+        // await clearExercises();
+        // await clearUsers();
         await initGlobals();
         await initExercises();
         await initUsers();

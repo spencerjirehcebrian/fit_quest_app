@@ -676,6 +676,6 @@
     "show_weight": true,
     "show_medication": false,
     "show_reminder": false,
-    "show_fitness_streak": true
+    "show_fitness_streak": false
   }
 }

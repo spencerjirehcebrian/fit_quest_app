@@ -1,62 +1,41 @@
-import React, { useState } from "react";
-import { View, Text, Button, Modal, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Pedometer } from "expo-sensors";
 
-const ModalButton = ({ modalContent }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+export default function App() {
+  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
+  const [pastStepCount, setPastStepCount] = useState(0);
+  const [currentStepCount, setCurrentStepCount] = useState(0);
 
-  return (
-    <>
-      <Button title="Open Modal" onPress={() => setModalVisible(true)} />
-      <Modal
-        visible={modalVisible}
-        animationType="fade"
-        transparent
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {modalContent}
-            <Button title="Close" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
-    </>
-  );
-};
+  const subscribe = async () => {
+    const isAvailable = await Pedometer.isAvailableAsync();
+    setIsPedometerAvailable(String(isAvailable));
 
-const TestScreen = () => {
-  const modalContents = [
-    <Text>What is your current weight?</Text>,
-    <Text>What is your target weight?</Text>,
-    // Add more modal contents here
-  ];
+    if (isAvailable) {
+      return Pedometer.watchStepCount((result) => {
+        setCurrentStepCount(result.steps);
+      });
+    }
+  };
+
+  useEffect(() => {
+    subscribe();
+  }, []);
 
   return (
     <View style={styles.container}>
-      {modalContents.map((content, index) => (
-        <ModalButton key={index} modalContent={content} />
-      ))}
+      <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
+      <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
+      <Text>Walk! And watch this go up: {currentStepCount}</Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    marginTop: 15,
     alignItems: "center",
-  },
-  modalContainer: {
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
   },
 });
-
-export default TestScreen;

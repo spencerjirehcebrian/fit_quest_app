@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import WheelPickerExpo from "react-native-wheel-picker-expo";
 import * as ImagePicker from "expo-image-picker";
 import {
   View,
@@ -67,8 +68,8 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
   const feetArray = generateArray();
   const kgArray = generateArray1();
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedIndex1, setSelectedIndex1] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(20);
+  const [selectedIndex1, setSelectedIndex1] = useState(20);
 
   const handleImagePress = async (source: any) => {
     // handleChange("file_expo_image", base64String);
@@ -363,27 +364,54 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={styles(theme).title2}>What is your height?</Text>
           <Text style={styles(theme).title3}>{feetArray[selectedIndex]}</Text>
-          <WheelPicker
-            selectedIndex={selectedIndex}
-            options={feetArray}
-            onChange={(index) => {
-              setSelectedIndex(index);
-              handleChange("height", feetArray[selectedIndex]);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={selectedIndex}
+              items={feetArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => {
+                setSelectedIndex(index),
+                  handleChange("height", feetArray[index]);
+              }}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
 
@@ -394,27 +422,53 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={styles(theme).title2}>What is your weight?</Text>
           <Text style={styles(theme).title3}>{kgArray[selectedIndex1]}kg</Text>
-          <WheelPicker
-            selectedIndex={selectedIndex1}
-            options={kgArray}
-            onChange={(index) => {
-              setSelectedIndex1(index);
-              handleChange("weight", kgArray[selectedIndex1]);
-            }}
-            itemTextStyle={{
-              fontFamily: theme.fonts.regular,
-              fontSize: 20,
-              color: "white",
-            }}
-            visibleRest={2}
-            itemHeight={50}
-            selectedIndicatorStyle={{
-              backgroundColor: theme.colors.dark_purple,
+          <View
+            style={{
               alignContent: "center",
-              borderRadius: 10,
               alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <View
+              pointerEvents="none"
+              style={{
+                height: 60,
+                width: "100%",
+                backgroundColor: theme.colors.dark_purple,
+                position: "absolute",
+                zIndex: 1,
+                opacity: 0.15,
+                top: 120,
+                borderRadius: 10,
+              }}
+            ></View>
+            <WheelPickerExpo
+              backgroundColor={theme.colors.purple}
+              height={300}
+              width={"100%"}
+              initialSelectedIndex={selectedIndex1}
+              items={kgArray.map((name) => ({
+                label: name,
+                value: "",
+              }))}
+              onChange={({ index }) => {
+                setSelectedIndex(index), handleChange("weight", kgArray[index]);
+              }}
+              renderItem={(props) => (
+                <Text
+                  style={{
+                    fontFamily: theme.fonts.regular,
+                    fontSize: 22,
+                    color: theme.colors.white,
+                    margin: 10,
+                  }}
+                >
+                  {props.label}
+                </Text>
+              )}
+            />
+          </View>
         </View>
       </HalfScreenModal>
     </View>
