@@ -134,7 +134,7 @@ type TUserData = {
 };
 
 export default function TodayTrackTab({ route, navigation }: any) {
-  // useStepCounter();
+  useStepCounter();
   const { theme } = useContext(ThemeContext);
   const { type, key, count_key, image } = route.params;
   const currentDate = new Date();

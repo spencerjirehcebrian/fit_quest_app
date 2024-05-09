@@ -86,7 +86,11 @@ export default function KettleComponent({
         <Text style={styles(theme).topText1}>{kettleData.points} points</Text>
       </View>
       <View style={styles(theme).kettle}>
-        <Image source={kettle} style={styles(theme).largeImage} />
+        <Image
+          source={kettle}
+          resizeMode="contain"
+          style={styles(theme).largeImage}
+        />
 
         <Text style={styles(theme).topText2}>{kettleData.kettle_points}%</Text>
         <View style={styles(theme).splats}>
@@ -258,9 +262,9 @@ const styles = (theme: Theme) =>
       fontSize: 36,
     },
     largeImage: {
-      resizeMode: "contain",
       width: "100%",
       height: "100%",
+      resizeMode: "contain",
       zIndex: 1,
     },
     buttonRow: {
@@ -317,7 +321,6 @@ const styles = (theme: Theme) =>
       marginTop: 10,
       width: "70%",
       height: "55%",
-      resizeMode: "contain",
     },
     splats: {
       position: "absolute",

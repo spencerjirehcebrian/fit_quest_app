@@ -7,6 +7,7 @@ import {
   ViewStyle,
   TouchableWithoutFeedback,
   GestureResponderEvent,
+  TouchableOpacity,
 } from "react-native";
 import { ThemeContext, Theme } from "@/themes/ThemeContext";
 
@@ -40,7 +41,10 @@ const HalfScreenModal = ({
       <TouchableWithoutFeedback onPress={handleModalClose}>
         <View style={styles(theme).container}>
           <View style={[styles(theme).modal, { minHeight: screenHeight / 2 }]}>
-            <View style={styles(theme).line}></View>
+            <TouchableOpacity
+              onPress={handleModalClose}
+              style={styles(theme).line}
+            ></TouchableOpacity>
             {children}
           </View>
         </View>
