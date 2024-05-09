@@ -72,7 +72,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
   const [selectedIndex1, setSelectedIndex1] = useState(20);
 
   const handleImagePress = async (source: any) => {
-    // handleChange("file_expo_image", base64String);
+    handleChange("file_expo_image", source);
   };
 
   useEffect(() => {
@@ -167,10 +167,22 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
       {/* Image with a button below it and text next to the image */}
       <View style={styles(theme).imageContainer}>
         <View style={styles(theme).galleryContainer}>
-          <Image
-            source={{ uri: formData.file_expo_image }}
-            style={styles(theme).image}
-          />
+          {formData.file_expo_image == "Char1" ? (
+            <Image source={Char1} style={styles(theme).image} />
+          ) : formData.file_expo_image == "Char2" ? (
+            <Image source={Char2} style={styles(theme).image} />
+          ) : formData.file_expo_image == "Char3" ? (
+            <Image source={Char3} style={styles(theme).image} />
+          ) : formData.file_expo_image == "Char4" ? (
+            <Image source={Char4} style={styles(theme).image} />
+          ) : formData.file_expo_image == "Char5" ? (
+            <Image source={Char5} style={styles(theme).image} />
+          ) : (
+            <Image
+              source={{ uri: formData.file_expo_image }}
+              style={styles(theme).image}
+            />
+          )}
 
           <TouchableOpacity
             onPress={pickImage}
@@ -186,19 +198,19 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
 
       {/* 5 small images side by side */}
       <View style={styles(theme).smallImagesContainer}>
-        <TouchableOpacity onPress={() => handleImagePress(Char1)}>
+        <TouchableOpacity onPress={() => handleImagePress("Char1")}>
           <Image source={Char1} style={styles(theme).smallImage} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleImagePress(Char2)}>
+        <TouchableOpacity onPress={() => handleImagePress("Char2")}>
           <Image source={Char2} style={styles(theme).smallImage} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleImagePress(Char3)}>
+        <TouchableOpacity onPress={() => handleImagePress("Char3")}>
           <Image source={Char3} style={styles(theme).smallImage} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleImagePress(Char4)}>
+        <TouchableOpacity onPress={() => handleImagePress("Char4")}>
           <Image source={Char4} style={styles(theme).smallImage} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleImagePress(Char5)}>
+        <TouchableOpacity onPress={() => handleImagePress("Char5")}>
           <Image source={Char5} style={styles(theme).smallImage} />
         </TouchableOpacity>
       </View>

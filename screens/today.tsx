@@ -304,205 +304,205 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
     setHalfModalVisibilities((prevVisibilities) =>
       prevVisibilities.map((visible, i) => (i === index ? !visible : visible))
     );
+    retrieve();
   };
 
-  useEffect(() => {
-    const retrieve = async () => {
-      const user = await getUsers();
-      const global = await getGlobals();
+  const retrieve = async () => {
+    const user = await getUsers();
+    const global = await getGlobals();
 
-      const {
-        steps,
-        minutes,
-        cal_burned,
-        sleep_time,
-        stress_level,
-        water_intake,
-        period,
-        weight_track,
-        fitness_streak,
-        reminder,
-        medication,
-        points,
-      } = user;
+    const {
+      steps,
+      minutes,
+      cal_burned,
+      sleep_time,
+      stress_level,
+      water_intake,
+      period,
+      weight_track,
+      fitness_streak,
+      reminder,
+      medication,
+      points,
+    } = user;
 
-      setPercentage(points!);
+    setPercentage(points!);
 
-      const date = new Date();
-      const formattedDate = convertDataHelper(date);
-      const currentDateItem = (
-        property: any,
-        formattedDate: string,
-        count_key: any
-      ) => {
-        const currentDay = property.find(
-          (obj: any) => obj.date === formattedDate
-        );
-        // console.log(property, currentDay);
-        return currentDay ? currentDay[count_key] : 0;
-      };
-
-      const min_count = currentDateItem(minutes, formattedDate, "min_count");
-      const steps_count = currentDateItem(steps, formattedDate, "steps_count");
-      const cal_burned_count = currentDateItem(
-        cal_burned,
-        formattedDate,
-        "cal_count"
+    const date = new Date();
+    const formattedDate = convertDataHelper(date);
+    const currentDateItem = (
+      property: any,
+      formattedDate: string,
+      count_key: any
+    ) => {
+      const currentDay = property.find(
+        (obj: any) => obj.date === formattedDate
       );
-      const sleep_time_count = currentDateItem(
-        sleep_time,
-        formattedDate,
-        "sleep_count"
-      );
-      const stress_level_count = currentDateItem(
-        stress_level,
-        formattedDate,
-        "stress_count"
-      );
-      const water_intake_count = currentDateItem(
-        water_intake,
-        formattedDate,
-        "water_count"
-      );
+      // console.log(property, currentDay);
+      return currentDay ? currentDay[count_key] : 0;
+    };
 
-      const weight_track_count = currentDateItem(
-        weight_track,
-        formattedDate,
-        "weight_count"
-      );
+    const min_count = currentDateItem(minutes, formattedDate, "min_count");
+    const steps_count = currentDateItem(steps, formattedDate, "steps_count");
+    const cal_burned_count = currentDateItem(
+      cal_burned,
+      formattedDate,
+      "cal_count"
+    );
+    const sleep_time_count = currentDateItem(
+      sleep_time,
+      formattedDate,
+      "sleep_count"
+    );
+    const stress_level_count = currentDateItem(
+      stress_level,
+      formattedDate,
+      "stress_count"
+    );
+    const water_intake_count = currentDateItem(
+      water_intake,
+      formattedDate,
+      "water_count"
+    );
 
-      setShowStates(global);
-      // console.log(global);
-      setUserData(user);
-      let tempItemData: itemType[] = [];
+    const weight_track_count = currentDateItem(
+      weight_track,
+      formattedDate,
+      "weight_count"
+    );
 
-      if (global!.show_steps) {
-        tempItemData.push({
-          name: "Steps",
-          description: `${steps_count} steps`,
-          onPress: () => toggleModal(0),
-          image: stepsIcon,
-        });
-      }
+    setShowStates(global);
+    setUserData(user);
+    let tempItemData: itemType[] = [];
 
-      if (global!.show_minutes) {
-        tempItemData.push({
-          name: "Minutes",
-          description: `${min_count} mins`,
-          onPress: () => toggleModal(1),
-          image: minutesIcon,
-        });
-      }
+    if (global!.show_steps) {
+      tempItemData.push({
+        name: "Steps",
+        description: `${steps_count} steps`,
+        onPress: () => toggleModal(0),
+        image: stepsIcon,
+      });
+    }
 
-      if (global!.show_calories) {
-        tempItemData.push({
-          name: "Calories",
-          description: `${cal_burned_count} cal`,
-          onPress: () => toggleModal(2),
-          image: achievementCalIcon,
-        });
-      }
+    if (global!.show_minutes) {
+      tempItemData.push({
+        name: "Minutes",
+        description: `${min_count} mins`,
+        onPress: () => toggleModal(1),
+        image: minutesIcon,
+      });
+    }
 
-      if (global!.show_sleep) {
-        tempItemData.push({
-          name: "Sleep",
-          description: `${sleep_time_count} hrs`,
-          onPress: () => toggleModal(3),
-          image: sleepIcon,
-          updateAble: true,
-        });
-      }
+    if (global!.show_calories) {
+      tempItemData.push({
+        name: "Calories",
+        description: `${cal_burned_count} cal`,
+        onPress: () => toggleModal(2),
+        image: achievementCalIcon,
+      });
+    }
 
-      if (global!.show_stress) {
-        let stress_level_display = "No Stress";
+    if (global!.show_sleep) {
+      tempItemData.push({
+        name: "Sleep",
+        description: `${sleep_time_count} hrs`,
+        onPress: () => toggleModal(3),
+        image: sleepIcon,
+        updateAble: true,
+      });
+    }
 
-        if (stress_level_count == 1) {
-          stress_level_display = "Minimal";
-        }
-        if (stress_level_count == 2) {
-          stress_level_display = "Moderate";
-        }
-        if (stress_level_count == 3) {
-          stress_level_display = "High";
-        }
-        if (stress_level_count == 4) {
-          stress_level_display = "Severe";
-        }
-        tempItemData.push({
-          name: "Stress",
-          description: `${stress_level_display}`,
-          onPress: () => toggleModal(4),
-          image: stressIcon,
-          updateAble: true,
-        });
-      }
+    if (global!.show_stress) {
+      let stress_level_display = "No Stress";
 
-      if (global!.show_water) {
-        tempItemData.push({
-          name: "Water",
-          description: `${water_intake_count} cups`,
-          onPress: () => toggleModal(5),
-          image: waterIcon,
-          updateAble: true,
-        });
+      if (stress_level_count == 1) {
+        stress_level_display = "Minimal";
       }
-
-      let period_display = `Day ${period}`;
-      if (period == 0) {
-        period_display = "No Period";
+      if (stress_level_count == 2) {
+        stress_level_display = "Moderate";
       }
-      if (global!.show_period) {
-        tempItemData.push({
-          name: "Period",
-          description: period_display,
-          onPress: () => toggleModal(6),
-          image: periodIcon,
-          updateAble: true,
-        });
+      if (stress_level_count == 3) {
+        stress_level_display = "High";
       }
-
-      if (global!.show_weight) {
-        tempItemData.push({
-          name: "Weight",
-          description: `${weight_track_count} kg`,
-          onPress: () => toggleModal(7),
-          image: weightIcon,
-          updateAble: true,
-        });
-      }
-      if (global!.show_medication) {
-        tempItemData.push({
-          name: "Medication",
-          onPress: () => toggleModal(8),
-          image: medicationIcon,
-          description: `-`,
-        });
-      }
-      if (global!.show_reminder) {
-        tempItemData.push({
-          name: "Reminder",
-          onPress: () => toggleModal(9),
-          image: notificationIcon,
-          description: `-`,
-        });
-      }
-      if (global!.show_fitness_streak) {
-        tempItemData.push({
-          name: "Streak",
-          description: `${fitness_streak?.length} Days`,
-          onPress: () => toggleModal(10),
-          image: streakIcon,
-        });
+      if (stress_level_count == 4) {
+        stress_level_display = "Severe";
       }
       tempItemData.push({
-        onPress: () => toggleModal(11),
-        image: plusIcon,
+        name: "Stress",
+        description: `${stress_level_display}`,
+        onPress: () => toggleModal(4),
+        image: stressIcon,
+        updateAble: true,
       });
-      setItems(() => ({
-        ...tempItemData,
-      }));
-      // console.log(tempItemData);
-    };
+    }
+
+    if (global!.show_water) {
+      tempItemData.push({
+        name: "Water",
+        description: `${water_intake_count} cups`,
+        onPress: () => toggleModal(5),
+        image: waterIcon,
+        updateAble: true,
+      });
+    }
+
+    let period_display = `Day ${period}`;
+    if (period == 0) {
+      period_display = "No Period";
+    }
+    if (global!.show_period) {
+      tempItemData.push({
+        name: "Period",
+        description: period_display,
+        onPress: () => toggleModal(6),
+        image: periodIcon,
+        updateAble: true,
+      });
+    }
+
+    if (global!.show_weight) {
+      tempItemData.push({
+        name: "Weight",
+        description: `${weight_track_count} kg`,
+        onPress: () => toggleModal(7),
+        image: weightIcon,
+        updateAble: true,
+      });
+    }
+    if (global!.show_medication) {
+      tempItemData.push({
+        name: "Medication",
+        onPress: () => toggleModal(8),
+        image: medicationIcon,
+        description: `-`,
+      });
+    }
+    if (global!.show_reminder) {
+      tempItemData.push({
+        name: "Reminder",
+        onPress: () => toggleModal(9),
+        image: notificationIcon,
+        description: `-`,
+      });
+    }
+    if (global!.show_fitness_streak) {
+      tempItemData.push({
+        name: "Streak",
+        description: `${fitness_streak?.length} Days`,
+        onPress: () => toggleModal(10),
+        image: streakIcon,
+      });
+    }
+    tempItemData.push({
+      onPress: () => toggleModal(11),
+      image: plusIcon,
+    });
+    setItems(() => ({
+      ...tempItemData,
+    }));
+    // console.log(tempItemData);
+  };
+  useEffect(() => {
     retrieve();
   }, [halfModalVisibilities, startIndex, modalVisibilities, forceUpdate]);
 
@@ -520,6 +520,7 @@ const TodayScreen: React.FC = ({ navigation }: any) => {
       if (!isLoggedIn) {
         navigation.navigate("Landing");
       }
+      retrieve();
       // useLoginStreak();
     };
     check();

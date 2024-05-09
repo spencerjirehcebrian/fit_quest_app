@@ -4,6 +4,12 @@ import ButtonHeader from "@/components/Buttons/ButtonHeader";
 import { getUsers } from "@/helpers/userDataHelpers";
 import { FontAwesome } from "@expo/vector-icons";
 import { ThemeContext, Theme } from "@/themes/ThemeContext";
+import Char1 from "@/assets/ProfileAssets/char1.png";
+import Char2 from "@/assets/ProfileAssets/char2.png";
+import Char3 from "@/assets/ProfileAssets/char3.png";
+import Char4 from "@/assets/ProfileAssets/char4.png";
+import Char5 from "@/assets/ProfileAssets/char5.png";
+import BButton from "@/assets/HomeAssets/b_arrow.png";
 import Icon from "@/assets/HeaderAssets/settings.png";
 
 const CustomHeader = ({
@@ -43,6 +49,7 @@ const CustomHeader = ({
       setUsername(username);
       setPoints(points?.toString());
       setImage(file_expo_image);
+      console.log(file_expo_image);
     };
 
     retrieve();
@@ -52,8 +59,18 @@ const CustomHeader = ({
     <View style={[styles(theme).container, !isSettings && { paddingTop: 35 }]}>
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <View style={styles(theme).leftContainer}>
-          {image != undefined && (
-            <Image source={{ uri: image }} style={styles(theme).userImage} />
+          {image == "Char1" ? (
+            <Image source={Char1} style={styles(theme).image} />
+          ) : image == "Char2" ? (
+            <Image source={Char2} style={styles(theme).image} />
+          ) : image == "Char3" ? (
+            <Image source={Char3} style={styles(theme).image} />
+          ) : image == "Char4" ? (
+            <Image source={Char4} style={styles(theme).image} />
+          ) : image == "Char5" ? (
+            <Image source={Char5} style={styles(theme).image} />
+          ) : (
+            <Image source={{ uri: image }} style={styles(theme).image} />
           )}
           <View>
             {!isSettings && (
@@ -106,7 +123,7 @@ const styles = (theme: Theme) =>
       flexDirection: "row",
       alignItems: "center",
     },
-    userImage: {
+    image: {
       width: 50,
       height: 50,
       borderRadius: 25,

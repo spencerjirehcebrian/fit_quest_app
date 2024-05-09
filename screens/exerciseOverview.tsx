@@ -76,7 +76,7 @@ export default function ExerciseOverviewScreen({
       </View>
 
       <View style={styles(theme).scrollView}>
-        <ScrollView>
+        <ScrollView style={{ paddingBottom: 50 }}>
           {exercise.sequence.map((sequence: SequenceType, index: number) => (
             <View key={index}>
               <ExerciseOverviewComponent index={index} mainIndex={test} />

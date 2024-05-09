@@ -23,6 +23,8 @@ import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 const imageSize = Math.min(width - 140, height - 140); // Use the smaller dimension to ensure the image fits the screen
 import GifReturnHelperSequence from "@/helpers/gifReturnHelperSequence";
+import { Audio, unloadAsync } from "expo-av";
+import { setAudioModeAsync } from "expo-av/build/Audio";
 
 const borderRadius = imageSize / 2;
 
@@ -43,8 +45,81 @@ export default function SequenceScreen({
     trackerIdx,
     trigger
   );
-  const [restState, setRestState] = useState(true);
+  const [restState, setRestState] = useState<any>(true);
 
+  const [sound, setSound] = useState<any>();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/321start.mp3")
+    );
+    setSound(sound);
+    await sound.playAsync();
+  }
+
+  const [sound1, setSound1] = useState<any>();
+
+  async function playSound1() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/rest10sec.mp3")
+    );
+    setSound1(sound);
+
+    await sound.playAsync();
+  }
+
+  const [sound2, setSound2] = useState<any>();
+
+  async function playSound2() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/30sec.mp3")
+    );
+    setSound2(sound);
+
+    await sound.playAsync();
+  }
+
+  async function pauseSound2() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/30sec.mp3")
+    );
+    setSound2(sound);
+
+    await sound.pauseAsync();
+  }
+
+  const [sound3, setSound3] = useState<any>();
+
+  async function playSound3() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/rest.mp3")
+    );
+    setSound3(sound);
+
+    await sound.playAsync();
+  }
+
+  const [sound4, setSound4] = useState<any>();
+
+  async function playSound4() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/start.mp3")
+    );
+    setSound4(sound);
+
+    await sound.playAsync();
+  }
+
+  const [sound5, setSound5] = useState<any>();
+
+  async function playSound5() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/Sounds/completion.mp3")
+    );
+    setSound5(sound);
+
+    await sound.playAsync();
+  }
   useEffect(() => {
     if (
       !exercise ||
@@ -56,6 +131,11 @@ export default function SequenceScreen({
     if (countDown === 0) {
       console.log(trackerIdx);
       addItemToSequence(trackerIdx + 1);
+      // setSound1(0);
+      pauseSound2();
+    }
+    if (countDown == 3) {
+      playSound();
     }
     return () => {};
   }, [countDown]);
@@ -98,6 +178,8 @@ export default function SequenceScreen({
       } else {
         newSequence = [restSequence];
       }
+      playSound1();
+      playSound3();
 
       setSequence(newSequence);
       setTrigger(trigger + 1);
@@ -113,12 +195,13 @@ export default function SequenceScreen({
       } else {
         newSequence = [exercise!.sequence[idx - 1]];
       }
+      playSound2();
       setSequence(newSequence);
       setTrigger(trigger + 1);
       setTrackerIdx(idx - 1);
       start(newSequence[idx - 1].duration);
     }
-    setRestState((prevState) => !prevState);
+    setRestState((prevState: any) => !prevState);
     console.log(newSequence);
   };
 
@@ -185,8 +268,12 @@ export default function SequenceScreen({
     if (hasReachedEnd == true) {
       onDone(exercise.name, exercise.duration);
       setUploadTrigger(true);
+      playSound5();
     }
   }, [hasReachedEnd]);
+  useEffect(() => {
+    playSound4();
+  }, []);
 
   return (
     <View style={styles(theme).container}>
@@ -216,10 +303,6 @@ export default function SequenceScreen({
           </View>
 
           {trackerIdx < 1 ? (
-            // <Image
-            //   source={{ uri: exercise. wsequence[0].image_url }}
-            //   style={styles(theme).image}
-            // />
             <View
               style={{
                 marginTop: height / 9,

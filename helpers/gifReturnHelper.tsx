@@ -109,8 +109,6 @@ const gifReturnHelper = ({
       pushUpGif,
       wideArmPushUpGif,
       tricepDipsGif,
-      wideArmPushUpGif,
-      tricepDipsGif,
       kneePushUpsGif,
       cobraStretchGif,
     ],

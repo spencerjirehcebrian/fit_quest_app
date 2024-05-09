@@ -25,7 +25,11 @@ export default function useStepCounter() {
     if (existingStepsIndex === -1) {
       steps!.push({ date: formattedDate, steps_count: duration });
     } else {
-      steps![existingStepsIndex].steps_count = duration;
+      if (steps![existingStepsIndex].steps_count >= duration) {
+        steps![existingStepsIndex].steps_count += 5;
+      } else {
+        steps![existingStepsIndex].steps_count = duration;
+      }
     }
 
     const calories = duration * 0.04;
@@ -106,12 +110,11 @@ export default function useStepCounter() {
         onDone(result.steps);
       });
     } else {
-      alert("There is no available pedometer on this device");
+      // alert("There is no available pedometer on this device");
     }
   };
 
   useEffect(() => {
-    console.log("requested");
     requestPedometerPermission();
     subscribe();
   }, []);
